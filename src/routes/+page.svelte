@@ -1,12 +1,13 @@
 <script>
 	import Counter from './Counter.svelte';
+	import UploadForm from './UploadForm.svelte';
 	import welcome from '$lib/images/svelte-welcome.webp';
 	import welcome_fallback from '$lib/images/svelte-welcome.png';
 </script>
 
 <svelte:head>
 	<title>Home</title>
-	<meta name="description" content="Svelte demo app" />
+	<meta name="description" content="DOCX 2 PDF" />
 </svelte:head>
 
 <section>
@@ -18,7 +19,7 @@
 			</picture>
 		</span>
 
-		to your new<br />SvelteKit app
+		to the best<br />DOCX 2 PDF Converter
 	</h1>
 
 	<h2>
@@ -26,6 +27,7 @@
 	</h2>
 
 	<Counter />
+	<UploadForm />
 </section>
 
 <style>
