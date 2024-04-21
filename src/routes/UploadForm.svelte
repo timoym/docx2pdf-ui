@@ -1,10 +1,16 @@
 <script lang="ts">
+    import { fade } from 'svelte/transition';
+	import { humanFileSize } from '$lib/utils';
+
 	let fileInput: HTMLInputElement;
 	let files: FileList;
 
-	async function onFileAdded(file: File) {
+	let addedFiles: File[] = [];
 
-    }
+	async function onFileAdded(file: File) {
+		console.log('File added:', file);
+		addedFiles = [...addedFiles, file];
+	}
 
 	async function onDrop(ev: DragEvent) {
 		ev.preventDefault();
@@ -14,9 +20,9 @@
 		}
 	}
 
-    async function onPressNext() {
-        console.log('Next button pressed');
-    }
+	async function onPressNext() {
+		console.log('Next button pressed');
+	}
 </script>
 
 <div class="upload-dialog">
@@ -48,8 +54,21 @@
 			<p>Max file size: 10MB</p>
 		</div>
 	</div>
+	<div>
+		{#each addedFiles as file, index}
+			<div class="file-card" transition:fade={{ duration: 100 }}>
+				<div class="file-info">
+					<p class="file-title">{file.name}</p>
+					<p class="file-subtitle">{humanFileSize(file.size)}</p>
+				</div>
+				<div class="file-actions">
+                    <button class="btn" on:click={() => addedFiles = addedFiles.filter((_, i) => i !== index)}>Remove</button>
+				</div>
+			</div>
+		{/each}
+	</div>
 	<div class="controls-area">
-		<button disabled={typeof files === 'undefined' || files.length > 0} on:click={() => onPressNext()}>Next</button>
+		<button class="btn" disabled={addedFiles.length <= 0} on:click={() => onPressNext()}>Next</button>
 	</div>
 </div>
 
@@ -58,7 +77,7 @@
 		padding: 1em;
 		background-color: #f8f8f8;
 		border-radius: 1em;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+		font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 	}
 	.title {
 		margin-bottom: 2em;
@@ -106,13 +125,35 @@
 		color: #ccc;
 	}
 
+	.file-card {
+        margin-top: 0.5em;
+		padding: 1em;
+		background-color: #f3f5f7;
+		border-radius: 0.5em;
+		display: flex;
+		justify-content: space-between;
+	}
+
+	.file-title {
+		font-size: 1em;
+		font-weight: bold;
+		margin: 0;
+	}
+
+	.file-subtitle {
+		font-size: 0.75em;
+		color: #ccc;
+		margin: 0;
+	}
+
+
 	.controls-area {
 		margin-top: 1em;
 		display: flex;
 		justify-content: flex-end;
 	}
 
-	.controls-area button {
+	.btn {
 		background-color: #ffffff;
 		border: 1px solid rgb(209, 213, 219);
 		border-radius: 0.5rem;
@@ -132,28 +173,28 @@
 		touch-action: manipulation;
 	}
 
-    .controls-area button:hover {
-        background-color: rgb(249, 250, 251);
-    }
+	.btn:hover {
+		background-color: rgb(249, 250, 251);
+	}
 
-    .controls-area button:focus {
-        outline: 2px solid transparent;
-        outline-offset: 2px;
-    }
+	.btn:focus {
+		outline: 2px solid transparent;
+		outline-offset: 2px;
+	}
 
-    .controls-area button:focus-visible {
-        box-shadow: none;
-    }
+	.btn:focus-visible {
+		box-shadow: none;
+	}
 
-    .controls-area button:active {
-        background-color: rgb(243, 244, 246);
-        border-color: rgb(209, 213, 219);
-    }
+	.btn:active {
+		background-color: rgb(243, 244, 246);
+		border-color: rgb(209, 213, 219);
+	}
 
-    .controls-area button:disabled {
-        background-color: rgb(243, 244, 246);
-        border-color: rgb(209, 213, 219);
-        color: rgb(107, 114, 128);
-        cursor: not-allowed;
-    }
+	.btn:disabled {
+		background-color: rgb(243, 244, 246);
+		border-color: rgb(209, 213, 219);
+		color: rgb(107, 114, 128);
+		cursor: not-allowed;
+	}
 </style>
