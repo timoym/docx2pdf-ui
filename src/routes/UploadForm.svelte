@@ -2,54 +2,158 @@
 	let fileInput: HTMLInputElement;
 	let files: FileList;
 
-	async function onFileUpload(file: File) {}
+	async function onFileAdded(file: File) {
+
+    }
 
 	async function onDrop(ev: DragEvent) {
 		ev.preventDefault();
 		const file = ev.dataTransfer?.files[0];
 		if (file) {
-			onFileUpload(file);
+			onFileAdded(file);
 		}
 	}
+
+    async function onPressNext() {
+        console.log('Next button pressed');
+    }
 </script>
 
-<button id="drop-area" type="button" on:drop={(ev) => onDrop(ev)} on:click={() => fileInput.click()} on:dragover={(evt) => evt.preventDefault()}>
-    <p>Drag and Drop a DOCX file here</p>
-    <input
-        type="file"
-        id="file"
-        accept=".docx"
-        bind:this={fileInput}
-        bind:files
-        on:change={() => onFileUpload(files[0])}
-    />
-</button>
+<div class="upload-dialog">
+	<div class="title">
+		<p>Upload file</p>
+	</div>
+	<button
+		class="drop-area"
+		type="button"
+		on:drop={(ev) => onDrop(ev)}
+		on:click={() => fileInput.click()}
+		on:dragover={(evt) => evt.preventDefault()}
+	>
+		<p>Drag and Drop a DOCX file here</p>
+		<input
+			type="file"
+			id="file"
+			accept=".docx"
+			bind:this={fileInput}
+			bind:files
+			on:change={() => onFileAdded(files[0])}
+		/>
+	</button>
+	<div class="description-area">
+		<div class="description-left">
+			<p>Supported file types: DOCX</p>
+		</div>
+		<div class="description-right">
+			<p>Max file size: 10MB</p>
+		</div>
+	</div>
+	<div class="controls-area">
+		<button disabled={typeof files === 'undefined' || files.length > 0} on:click={() => onPressNext()}>Next</button>
+	</div>
+</div>
 
 <style>
-	#drop-area {
+	.upload-dialog {
+		padding: 1em;
+		background-color: #f8f8f8;
+		border-radius: 1em;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	}
+	.title {
+		margin-bottom: 2em;
+	}
+	.title p {
+		font-size: 1.5em;
+		font-weight: bold;
+	}
+	.drop-area {
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
 		width: 100%;
 		height: 100%;
-		border: 2px dashed #ccc;
-		border-radius: 20px;
+		border: 0.2em dashed #ccc;
+		border-radius: 0.5em;
 		background-color: #f8f8f8;
 		color: #ccc;
 	}
 
-	#drop-area p {
+	.drop-area p {
 		font-size: 1.5em;
-		padding: 20px;
 	}
 
-	#drop-area input {
+	.drop-area input {
 		display: none;
 	}
 
-	#drop-area:hover {
-		border-color: #333;
+	.drop-area:hover {
+		border-color: #25ace9;
+		background-color: #f2f7ff;
 		color: #333;
 	}
+
+	.description-area {
+		margin: 0.2em;
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+	}
+
+	.description-area p {
+		font-size: 0.75em;
+		color: #ccc;
+	}
+
+	.controls-area {
+		margin-top: 1em;
+		display: flex;
+		justify-content: flex-end;
+	}
+
+	.controls-area button {
+		background-color: #ffffff;
+		border: 1px solid rgb(209, 213, 219);
+		border-radius: 0.5rem;
+		box-sizing: border-box;
+		color: #111827;
+		font-size: 0.875rem;
+		font-weight: 300;
+		line-height: 1.25rem;
+		padding: 0.5rem 1rem;
+		text-align: center;
+		text-decoration: none #d1d5db solid;
+		text-decoration-thickness: auto;
+		box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+		cursor: pointer;
+		user-select: none;
+		-webkit-user-select: none;
+		touch-action: manipulation;
+	}
+
+    .controls-area button:hover {
+        background-color: rgb(249, 250, 251);
+    }
+
+    .controls-area button:focus {
+        outline: 2px solid transparent;
+        outline-offset: 2px;
+    }
+
+    .controls-area button:focus-visible {
+        box-shadow: none;
+    }
+
+    .controls-area button:active {
+        background-color: rgb(243, 244, 246);
+        border-color: rgb(209, 213, 219);
+    }
+
+    .controls-area button:disabled {
+        background-color: rgb(243, 244, 246);
+        border-color: rgb(209, 213, 219);
+        color: rgb(107, 114, 128);
+        cursor: not-allowed;
+    }
 </style>
