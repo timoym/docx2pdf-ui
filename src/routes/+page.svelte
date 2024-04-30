@@ -21,12 +21,6 @@
 
 		to the best<br />DOCX 2 PDF Converter
 	</h1>
-
-	<h2>
-		try editing <strong>src/routes/+page.svelte</strong>
-	</h2>
-
-	<Counter />
 	<UploadForm />
 </section>
 
