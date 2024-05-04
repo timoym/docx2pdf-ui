@@ -1,6 +1,7 @@
 <script lang="ts">
     import { fade } from 'svelte/transition';
 	import { humanFileSize } from '$lib/utils';
+	import { uploadFile } from '$lib/docx2pdfapi';
 
 	let fileInput: HTMLInputElement;
 	let files: FileList;
@@ -22,6 +23,11 @@
 
 	async function onPressNext() {
 		console.log('Next button pressed');
+		const responses: Promise<string>[] = [];
+		addedFiles.forEach((file) => {
+			responses.push(uploadFile(file));
+		});
+		const results = await Promise.all(responses);
 	}
 </script>
 
