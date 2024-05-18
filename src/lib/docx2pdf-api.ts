@@ -2,7 +2,7 @@ async function uploadFile(file: File): Promise<{ fileId: string }> {
 	const formData = new FormData();
 	formData.append('file', file);
 
-	return fetch('api/v1/upload', {
+	return fetch('functions-api/v1/upload', {
 		method: 'POST',
 		body: formData
 	})
@@ -15,7 +15,7 @@ async function convertDocxToPdf(fileIds: string[]): Promise<{ jobId: string }> {
 		formData.append('fileId', fileId);
 	});
 
-	return fetch('api/v1/convert', {
+	return fetch('functions-api/v1/convert', {
 		method: 'POST',
 		body: formData
 	})
@@ -32,7 +32,7 @@ async function checkConversionStatus(pdfUrl: string): Promise<ConversionStatus> 
 	const formData = new FormData();
 	formData.append('pdfUrl', pdfUrl);
 
-	return fetch('api/v1/status', {
+	return fetch('functions-api/v1/status', {
 		method: 'POST',
 		body: formData
 	})
