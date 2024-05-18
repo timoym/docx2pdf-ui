@@ -1,11 +1,11 @@
 <script lang="ts">
-    import { fade } from 'svelte/transition';
+	import { fade } from 'svelte/transition';
 	import { humanFileSize } from '$lib/utils';
-	import { uploadFile } from '$lib/docx2pdfapi';
+	import { goto } from '$app/navigation';
+	import { uploadFile, convertDocxToPdf } from '$lib/docx2pdf-api';
 
 	let fileInput: HTMLInputElement;
 	let files: FileList;
-
 	let addedFiles: File[] = [];
 
 	async function onFileAdded(file: File) {
@@ -23,11 +23,12 @@
 
 	async function onPressNext() {
 		console.log('Next button pressed');
-		const responses: Promise<string>[] = [];
-		addedFiles.forEach((file) => {
-			responses.push(uploadFile(file));
-		});
-		const results = await Promise.all(responses);
+		const results = await Promise.all(addedFiles.map(uploadFile));
+		const fileIds = results.map((result) => result.fileId);
+		console.log('File IDs:', fileIds)
+		const jobId = (await convertDocxToPdf(fileIds)).jobId;
+		console.log('Job ID:', jobId);
+		goto(`/progress?job=${jobId}`);
 	}
 </script>
 
@@ -68,13 +69,18 @@
 					<p class="file-subtitle">{humanFileSize(file.size)}</p>
 				</div>
 				<div class="file-actions">
-                    <button class="btn" on:click={() => addedFiles = addedFiles.filter((_, i) => i !== index)}>Remove</button>
+					<button
+						class="btn"
+						on:click={() => (addedFiles = addedFiles.filter((_, i) => i !== index))}>Remove</button
+					>
 				</div>
 			</div>
 		{/each}
 	</div>
 	<div class="controls-area">
-		<button class="btn" disabled={addedFiles.length <= 0} on:click={() => onPressNext()}>Next</button>
+		<button class="btn" disabled={addedFiles.length <= 0} on:click={() => onPressNext()}
+			>Upload</button
+		>
 	</div>
 </div>
 
@@ -130,35 +136,29 @@
 		font-size: 0.75em;
 		color: #ccc;
 	}
-
 	.file-card {
-        margin-top: 0.5em;
+		margin-top: 0.5em;
 		padding: 1em;
 		background-color: #f3f5f7;
 		border-radius: 0.5em;
 		display: flex;
 		justify-content: space-between;
 	}
-
 	.file-title {
 		font-size: 1em;
 		font-weight: bold;
 		margin: 0;
 	}
-
 	.file-subtitle {
 		font-size: 0.75em;
 		color: #ccc;
 		margin: 0;
 	}
-
-
 	.controls-area {
 		margin-top: 1em;
 		display: flex;
 		justify-content: flex-end;
 	}
-
 	.btn {
 		background-color: #ffffff;
 		border: 1px solid rgb(209, 213, 219);
@@ -178,25 +178,20 @@
 		-webkit-user-select: none;
 		touch-action: manipulation;
 	}
-
 	.btn:hover {
 		background-color: rgb(249, 250, 251);
 	}
-
 	.btn:focus {
 		outline: 2px solid transparent;
 		outline-offset: 2px;
 	}
-
 	.btn:focus-visible {
 		box-shadow: none;
 	}
-
 	.btn:active {
 		background-color: rgb(243, 244, 246);
 		border-color: rgb(209, 213, 219);
 	}
-
 	.btn:disabled {
 		background-color: rgb(243, 244, 246);
 		border-color: rgb(209, 213, 219);

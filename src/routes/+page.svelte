@@ -1,7 +1,7 @@
 <script>
-	import UploadForm from './UploadForm.svelte';
 	import welcome from '$lib/images/svelte-welcome.webp';
 	import welcome_fallback from '$lib/images/svelte-welcome.png';
+	import { goto } from '$app/navigation';
 </script>
 
 <svelte:head>
@@ -20,7 +20,7 @@
 
 		to the best<br />DOCX 2 PDF Converter
 	</h1>
-	<UploadForm />
+	<a href="/upload">Get Started</a>
 </section>
 
 <style>
