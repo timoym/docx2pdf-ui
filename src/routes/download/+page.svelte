@@ -1,17 +1,17 @@
 <script lang="ts">
 	import { page } from '$app/stores';
+	import { getDownloadUrl } from '$lib/docx2pdf-api';
 
-	let jobId: string = '';
+	export const jobId: string = $page.url.searchParams.get('job')!;
 
-	$: {
-		jobId = $page.params.jobId;
+	async function download() {
+		let downloadUrl: string = await getDownloadUrl(jobId);
+		window.location.href = downloadUrl;
 	}
-
-	let downloadUrl: string = `/api/download/${jobId}`;
 </script>
 
 <div>
 	<h2>Your download is ready!</h2>
 
-	<a href={downloadUrl} download>Click here to download</a>
+	<button on:click={download}>Click here to download</button>
 </div>

@@ -28,9 +28,9 @@ enum ConversionStatus {
 	Error = 'error'
 }
 
-async function checkConversionStatus(pdfUrl: string): Promise<ConversionStatus> {
+async function checkConversionStatus(jobId: string): Promise<ConversionStatus> {
 	const formData = new FormData();
-	formData.append('pdfUrl', pdfUrl);
+	formData.append('jobId', jobId);
 
 	return fetch('functions-api/v1/status', {
 		method: 'POST',
@@ -40,4 +40,16 @@ async function checkConversionStatus(pdfUrl: string): Promise<ConversionStatus> 
 		.then((data) => data.status);
 }
 
-export { uploadFile, convertDocxToPdf, checkConversionStatus, ConversionStatus };
+async function getDownloadUrl(jobId: string): Promise<string> {
+	const formData = new FormData();
+	formData.append('jobId', jobId);
+
+	return fetch('functions-api/v1/download', {
+		method: 'POST',
+		body: formData
+	})
+		.then((response) => response.json() as Promise<{ url: string }>)
+		.then((data) => data.url);
+}
+
+export { uploadFile, convertDocxToPdf, checkConversionStatus, ConversionStatus, getDownloadUrl };
