@@ -1,12 +1,12 @@
 import { json, type RequestHandler } from '@sveltejs/kit';
-import { UPLOAD_API_KEY, UPLOAD_API_URL } from '$env/static/private';
+import { env } from '$env/dynamic/private';
 
-const uploadApiUrl = `${UPLOAD_API_URL}?code=${UPLOAD_API_KEY}`;
+const uploadApiUrl = `${env.UPLOAD_API_URL}?code=${env.UPLOAD_API_KEY}`;
 
 export const POST: RequestHandler<{
 	fileId: string;
 }> = async (event) => {
-	if (!UPLOAD_API_KEY || !UPLOAD_API_URL) {
+	if (!env.UPLOAD_API_KEY || !env.UPLOAD_API_URL) {
 		return json({ error: 'Upload API not configured' }, { status: 500 });
 	}
 
