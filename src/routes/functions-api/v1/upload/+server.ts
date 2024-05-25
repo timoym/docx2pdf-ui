@@ -6,7 +6,7 @@ const uploadApiUrl = `${UPLOAD_API_URL}?code=${UPLOAD_API_KEY}`;
 export const POST: RequestHandler<{
 	fileId: string;
 }> = async (event) => {
-	if (UPLOAD_API_KEY === undefined || UPLOAD_API_URL === undefined) {
+	if (!UPLOAD_API_KEY || !UPLOAD_API_URL) {
 		return json({ error: 'Upload API not configured' }, { status: 500 });
 	}
 
