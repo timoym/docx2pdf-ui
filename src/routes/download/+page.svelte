@@ -5,7 +5,7 @@
 	export const jobId: string = $page.url.searchParams.get('jobId')!;
 
 	async function download() {
-		let downloadUrl: string = await getDownloadUrl(jobId);
+		let downloadUrl: string = decodeURIComponent(await getDownloadUrl(jobId));
 		window.location.href = downloadUrl;
 	}
 </script>
