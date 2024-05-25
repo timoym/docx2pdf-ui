@@ -1,22 +1,22 @@
 import { v4 as uuidv4 } from 'uuid';
 import { json, type RequestHandler } from '@sveltejs/kit';
 
+const convertApiUrl = `${env.CONVERT_API_URL}?code=${env.CONVERT_API_KEY}`;
+
 export const POST: RequestHandler<{
 	jobId: string;
 }> = async (event) => {
 	const data = await event.request.formData();
-    const fileId = data.get('fileId') as string;
-    if (!fileId) {
-        return json({ error: 'Missing fileId' }, { status: 400 });
-    }
-	const jobId = uuidv4();
+	const fileId = data.get('fileId') as string;
+	if (!fileId) {
+		return json({ error: 'Missing fileId' }, { status: 400 });
+	}
 
-    // Create job entry in database
-    
-    // Add fileIds to job entry
-
-    // Start the conversion job
-
+	const response = await fetch(convertApiUrl, {
+		method: 'POST',
+		body: JSON.stringify({ fileId })
+	});
+	const jobId = JSON.parse(await response.text()).jobId;
 
 	return json({ jobId }, { status: 201 });
 };

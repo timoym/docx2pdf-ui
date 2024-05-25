@@ -8,11 +8,9 @@ async function uploadFile(file: File): Promise<{ fileId: string }> {
 	}).then((response) => response.json() as Promise<{ fileId: string }>);
 }
 
-async function convertDocxToPdf(fileIds: string[]): Promise<{ jobId: string }> {
+async function convertDocxToPdf(fileId: string): Promise<{ jobId: string }> {
 	const formData = new FormData();
-	fileIds.forEach((fileId) => {
-		formData.append('fileId', fileId);
-	});
+	formData.append('fileId', fileId);
 
 	return fetch('functions-api/v1/convert', {
 		method: 'POST',
