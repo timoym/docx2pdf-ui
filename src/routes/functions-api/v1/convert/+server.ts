@@ -12,7 +12,7 @@ export const POST: RequestHandler<{
 		return json({ error: 'Missing fileId' }, { status: 400 });
 	}
 
-	const response = await fetch(convertApiUrl, {
+	const response = await fetch(`${convertApiUrl}&fileId=${fileId}`, {
 		method: 'POST',
 		body: JSON.stringify({ fileId })
 	});
