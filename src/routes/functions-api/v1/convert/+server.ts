@@ -1,5 +1,5 @@
-import { v4 as uuidv4 } from 'uuid';
 import { json, type RequestHandler } from '@sveltejs/kit';
+import { env } from '$env/dynamic/private';
 
 const convertApiUrl = `${env.CONVERT_API_URL}?code=${env.CONVERT_API_KEY}`;
 
