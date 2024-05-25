@@ -5,8 +5,7 @@ async function uploadFile(file: File): Promise<{ fileId: string }> {
 	return fetch('functions-api/v1/upload', {
 		method: 'POST',
 		body: formData
-	})
-		.then((response) => response.json() as Promise<{ fileId: string }>)
+	}).then((response) => response.json() as Promise<{ fileId: string }>);
 }
 
 async function convertDocxToPdf(fileIds: string[]): Promise<{ jobId: string }> {
@@ -18,17 +17,16 @@ async function convertDocxToPdf(fileIds: string[]): Promise<{ jobId: string }> {
 	return fetch('functions-api/v1/convert', {
 		method: 'POST',
 		body: formData
-	})
-		.then((response) => response.json() as Promise<{ jobId: string }>)
+	}).then((response) => response.json() as Promise<{ jobId: string }>);
 }
 
-enum ConversionStatus {
-	Pending = 'pending',
-	Done = 'done',
-	Error = 'error'
+enum JobStatus {
+	IN_PROGRESS = 'inprogress',
+	DONE = 'done',
+	FAILED = 'failed'
 }
 
-async function checkConversionStatus(jobId: string): Promise<ConversionStatus> {
+async function checkConversionStatus(jobId: string): Promise<JobStatus> {
 	const formData = new FormData();
 	formData.append('jobId', jobId);
 
@@ -36,7 +34,7 @@ async function checkConversionStatus(jobId: string): Promise<ConversionStatus> {
 		method: 'POST',
 		body: formData
 	})
-		.then((response) => response.json() as Promise<{ status: ConversionStatus }>)
+		.then((response) => response.json() as Promise<{ status: JobStatus }>)
 		.then((data) => data.status);
 }
 
@@ -52,4 +50,4 @@ async function getDownloadUrl(jobId: string): Promise<string> {
 		.then((data) => data.url);
 }
 
-export { uploadFile, convertDocxToPdf, checkConversionStatus, ConversionStatus, getDownloadUrl };
+export { uploadFile, convertDocxToPdf, checkConversionStatus, JobStatus, getDownloadUrl };
