@@ -2,7 +2,7 @@
 	import { page } from '$app/stores';
 	import { getDownloadUrl } from '$lib/docx2pdf-api';
 
-	export const jobId: string = $page.url.searchParams.get('job')!;
+	export const jobId: string = $page.url.searchParams.get('jobId')!;
 
 	async function download() {
 		let downloadUrl: string = await getDownloadUrl(jobId);

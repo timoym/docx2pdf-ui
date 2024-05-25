@@ -17,7 +17,7 @@
 
 		if (status === JobStatus.DONE) {
 			clearInterval(checkInterval);
-			goto(`/download?job=${jobId}`);
+			goto(`/download?jobId=${jobId}`);
 		} else if (status === JobStatus.FAILED) {
 			clearInterval(checkInterval);
 			alert('Conversion failed');

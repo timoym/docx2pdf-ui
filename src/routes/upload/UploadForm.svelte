@@ -26,9 +26,9 @@
 		const results = await Promise.all(addedFiles.map(uploadFile));
 		const fileIds = results.map((result) => result.fileId);
 		console.log('File IDs:', fileIds)
-		const jobId = (await convertDocxToPdf(fileIds)).jobId;
+		const jobId = (await convertDocxToPdf(fileIds[0])).jobId;
 		console.log('Job ID:', jobId);
-		goto(`/progress?job=${jobId}`);
+		goto(`/progress?jobId=${jobId}`);
 	}
 </script>
 
