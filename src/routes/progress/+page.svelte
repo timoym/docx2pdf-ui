@@ -9,7 +9,7 @@
 	let checkInterval: NodeJS.Timeout;
 
 	onMount(() => {
-		checkInterval = setTimeout(checkStatus, 1000);
+		checkInterval = setInterval(checkStatus, 1000);
 	});
 
 	async function checkStatus() {
