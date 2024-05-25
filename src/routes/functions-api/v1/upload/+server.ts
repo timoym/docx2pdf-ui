@@ -12,6 +12,9 @@ export const POST: RequestHandler<{
 
 	const data = await event.request.formData();
 	const file = data.get('file') as FormDataEntryValue;
+	if (!file) {
+		return json({ error: 'Missing file' }, { status: 400 });
+	}
 
 	// Send the file to the api
 	const response = await fetch(uploadApiUrl, {

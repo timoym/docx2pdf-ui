@@ -5,7 +5,10 @@ export const POST: RequestHandler<{
 	jobId: string;
 }> = async (event) => {
 	const data = await event.request.formData();
-    const fileIds = data.getAll('fileId') as string[];
+    const fileId = data.get('fileId') as string;
+    if (!fileId) {
+        return json({ error: 'Missing fileId' }, { status: 400 });
+    }
 	const jobId = uuidv4();
 
     // Create job entry in database

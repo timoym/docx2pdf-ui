@@ -1,17 +1,14 @@
 import { json, type RequestHandler } from '@sveltejs/kit';
-import { ConversionStatus } from '$lib/docx2pdf-api';
+import { JobStatus, checkConversionStatus } from '$lib/docx2pdf-api';
 
 export const POST: RequestHandler<{
-	status: ConversionStatus;
+	status: JobStatus;
 }> = async (event) => {
 	const data = await event.request.formData();
 	const jobId = data.get('jobId') as string;
+	if (!jobId) {
+		return json({ error: 'Missing jobId' }, { status: 400 });
+	}
 
-	// Get job from database
-
-	// Check if job is done
-
-	// Return the status
-
-	return json({ status: ConversionStatus.Done }, { status: 201 });
+	return json({ status: checkConversionStatus(jobId) }, { status: 201 });
 };
