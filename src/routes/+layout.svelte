@@ -1,16 +1,15 @@
 <script>
+	import '../app.css';
 	import Header from './Header.svelte';
-	import '../app.css'
 </script>
 
 <div class="app">
 	<Header />
-
 	<main>
 		<slot />
 	</main>
 
-	<footer>
+	<footer class="text-black dark:text-white">
 		<p>© 2024 Timo Müller</p>
 	</footer>
 </div>

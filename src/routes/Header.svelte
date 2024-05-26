@@ -4,10 +4,10 @@
 
 </script>
 
-<header>
+<header class="mx-auto">
 	<nav>
 		<div class="flex items-center py-4 overflow-x-auto whitespace-nowrap">
-			<a href="/" class="text-gray-600 dark:text-{$page.url.pathname == "/" ? "gray-400" : "gray-200"} hover:underline">
+			<a href="/" class="text-gray-600 dark:text-{$page.url.pathname == "/" ? "gray-200" : "gray-400"} hover:underline">
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
 					width="16"
@@ -24,24 +24,12 @@
 
 			<span class="mx-3 text-gray-500 dark:text-gray-300"> / </span>
 
-			<a href="/upload" class="text-gray-600 dark:text-{$page.url.pathname == "/upload" ? "gray-400" : "gray-200"} hover:underline"> Upload </a>
+			<a href="/upload" class="text-gray-600 dark:text-{$page.url.pathname == "/upload" ? "gray-200" : "gray-400"} hover:underline"> Upload </a>
 
 			<span class="mx-3 text-gray-500 dark:text-gray-300"> / </span>
 
-			<a href="/about" class="text-gray-600 dark:text-{$page.url.pathname == "/about" ? "gray-400" : "gray-200"} hover:underline"> About </a>
+			<a href="/about" class="text-gray-600 dark:text-{$page.url.pathname == "/about" ? "gray-200" : "gray-400"} hover:underline"> About </a>
 		</div>
 	</nav>
 </header>
 
-<style>
-	header {
-		display: flex;
-		justify-content: space-between;
-		margin: 1em 1em 1em 1em;
-	}
-
-	nav {
-		display: flex;
-		justify-content: center;
-	}
-</style>

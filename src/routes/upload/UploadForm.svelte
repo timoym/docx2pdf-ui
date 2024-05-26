@@ -25,7 +25,7 @@
 		console.log('Next button pressed');
 		const results = await Promise.all(addedFiles.map(uploadFile));
 		const fileIds = results.map((result) => result.fileId);
-		console.log('File IDs:', fileIds)
+		console.log('File IDs:', fileIds);
 		const jobId = (await convertDocxToPdf(fileIds[0])).jobId;
 		console.log('Job ID:', jobId);
 		goto(`/progress?jobId=${jobId}`);
@@ -36,23 +36,25 @@
 	<div class="title">
 		<p>Upload file</p>
 	</div>
-	<button
-		class="drop-area"
-		type="button"
-		on:drop={(ev) => onDrop(ev)}
-		on:click={() => fileInput.click()}
-		on:dragover={(evt) => evt.preventDefault()}
-	>
-		<p>Drag and Drop a DOCX file here</p>
-		<input
-			type="file"
-			id="file"
-			accept=".docx"
-			bind:this={fileInput}
-			bind:files
-			on:change={() => onFileAdded(files[0])}
-		/>
-	</button>
+	<div class={addedFiles && addedFiles.length > 0 ? 'hidden' : ''}>
+		<button
+			class="drop-area"
+			type="button"
+			on:drop={(ev) => onDrop(ev)}
+			on:click={() => fileInput.click()}
+			on:dragover={(evt) => evt.preventDefault()}
+		>
+			<p>Drag and Drop a DOCX file here</p>
+			<input
+				type="file"
+				id="file"
+				accept=".docx"
+				bind:this={fileInput}
+				bind:files
+				on:change={() => onFileAdded(files[0])}
+			/>
+		</button>
+	</div>
 	<div class="description-area">
 		<div class="description-left">
 			<p>Supported file types: DOCX</p>
@@ -91,14 +93,13 @@
 		border-radius: 1em;
 		font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 	}
-	.title {
-		margin-bottom: 2em;
-	}
+
 	.title p {
 		font-size: 1.5em;
 		font-weight: bold;
 	}
 	.drop-area {
+		margin-top: 2em;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
