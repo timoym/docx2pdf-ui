@@ -10,8 +10,13 @@
 	}
 </script>
 
-<div>
+<div class="container mx-auto text-white w-96 text-center">
 	<h2>Your download is ready!</h2>
-
-	<button on:click={download}>Click here to download</button>
+	<br />
+	<div class="w-full flex flex-row justify-center">
+		<button
+			class="px-4 md:px-8 py-2 md:py-4 rounded-md font-medium text-base flex items-center justify-center bg-indigo-500 text-white hover:bg-indigo-600 transition-colors duration-200"
+			on:click={download}>Click here to download</button
+		>
+	</div>
 </div>

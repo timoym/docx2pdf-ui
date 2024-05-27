@@ -25,6 +25,6 @@
 	}
 </script>
 
-<div>
+<div class="container mx-auto text-white w-96 text-center">
 	<h2>Converting your files...</h2>
 </div>
